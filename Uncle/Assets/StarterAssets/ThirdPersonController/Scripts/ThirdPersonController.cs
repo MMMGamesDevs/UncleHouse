@@ -31,8 +31,6 @@ namespace StarterAssets
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
 
-        public float LookSensitivity = 1f;
-
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
@@ -79,6 +77,10 @@ namespace StarterAssets
 
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
+
+        [Header("Custom")]
+        [Tooltip("Sensibilidad del mouse para ver la escena alrededor del personaje")]
+        public float LookSensitivity = 1f;
 
         // cinemachine
         private float _cinemachineTargetYaw;
