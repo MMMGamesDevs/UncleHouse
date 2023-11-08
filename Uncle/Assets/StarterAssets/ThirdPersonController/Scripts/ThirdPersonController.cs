@@ -81,6 +81,11 @@ namespace StarterAssets
         [Header("Custom")]
         [Tooltip("Sensibilidad del mouse para ver la escena alrededor del personaje")]
         public float LookSensitivity = 1f;
+        //public GameObject PlayerFollowCamera;
+        private GameObject playerAimCamera;
+        public GameObject bulletObject;
+        public Transform bulletPoint;
+        public GameObject bullet;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -141,7 +146,13 @@ namespace StarterAssets
 
             if(_cinemachineVirtualCamera == null)
             {
-                _cinemachineVirtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+                //_cinemachineVirtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+                _cinemachineVirtualCamera = GameObject.FindGameObjectWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
+            }
+
+            if(playerAimCamera == null)
+            {
+                playerAimCamera = GameObject.FindGameObjectWithTag("PlayerAimCamera");
             }
         }
 
@@ -164,6 +175,16 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            //bulletObject = Resources.Load("Bullet") as GameObject;
+            //bulletObject = Resources.Load("Bullet", typeof(GameObject)) as GameObject;
+            bulletPoint = gameObject.transform.Find("PlayerCameraRoot");
+            bulletObject = Resources.Load<GameObject>("Bullet");
+            //bullet = Instantiate(bulletObject, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            //bullet = Instantiate(bulletObject, Vector3.zero, Quaternion.identity);
+            //Debug.Log(bulletObject.GetComponent<Rigidbody>().mass);
+            //GameObject bullet = Instantiate(Resources.Load("Bullet", typeof(GameObject)), bulletPoint.position, Quaternion.Euler(new Vector3(90, bulletPoint.rotation.eulerAngles.y, 0))) as GameObject;
+            //Debug.Log(bulletObject.active);
+            //Debug.Log(bulletPoint.gameObject.active);
         }
 
         public override void OnNetworkSpawn()
@@ -173,7 +194,10 @@ namespace StarterAssets
             {
                 _playerInput = GetComponent<PlayerInput>();
                 _playerInput.enabled = true;
-                _cinemachineVirtualCamera.Follow = transform.Find("PlayerCameraRoot");
+                Transform PlayerCameraRoot = transform.Find("PlayerCameraRoot");
+                _cinemachineVirtualCamera.Follow = PlayerCameraRoot;
+                playerAimCamera.GetComponent<CinemachineVirtualCamera>().Follow = PlayerCameraRoot;
+                
             }
         }
 
@@ -186,8 +210,35 @@ namespace StarterAssets
                 JumpAndGravity();
                 GroundedCheck();
                 Move();
+                AimShoot();
             }
             
+        }
+
+        void AimShoot()
+        {
+            if (_input.isAiming && Grounded && !_input.sprint)
+            {
+                _animator.SetBool("Aiming", _input.isAiming);
+                _animator.SetBool("Shooting", _input.isShooting);
+                _cinemachineVirtualCamera.gameObject.SetActive(false);
+                playerAimCamera.SetActive(true);
+            }
+            else
+            {
+                _animator.SetBool("Aiming", false);
+                _animator.SetBool("Shooting", false);
+                _cinemachineVirtualCamera.gameObject.SetActive(true);
+                playerAimCamera.SetActive(false);
+            }
+        }
+
+        public void Shoot()
+        {
+            Debug.Log("Disparo");
+            Debug.Log(bulletObject.GetComponent<Rigidbody>().mass);
+            GameObject bullet = Instantiate(bulletObject, bulletPoint.position, Quaternion.Euler(new Vector3(0, bulletPoint.rotation.eulerAngles.y, 0)));
+            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 25f, ForceMode.Impulse);
         }
 
         private void LateUpdate()

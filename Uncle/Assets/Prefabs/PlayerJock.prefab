@@ -134,6 +134,10 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   LookSensitivity: 2
+  PlayerFollowCamera: {fileID: 0}
+  PlayerAimCamera: {fileID: 0}
+  arrowObject: {fileID: 0}
+  arrowPoint: {fileID: 0}
 --- !u!114 &365331184948097957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +171,8 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  isAiming: 0
+  isShooting: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
