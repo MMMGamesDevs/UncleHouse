@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Zombie : MonoBehaviour
 {
     int HP = 100;
-    //public Slider healthBar;
-    public Animator animator;
+    public Slider healthBar;
+    Animator animator;
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class Zombie : MonoBehaviour
 
     private void Update()
     {
-        //healthBar.value = HP;
+        if(healthBar != null) healthBar.value = HP;
     }
 
     public void TakeDamage(int damageAmount)
