@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
 
-namespace StarterAssets
+namespace StarterAssetss
 {
     [RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM 
@@ -80,12 +80,28 @@ namespace StarterAssets
 
         [Header("Custom")]
         [Tooltip("Sensibilidad del mouse para ver la escena alrededor del personaje")]
-        public float LookSensitivity = 1f;
+        public float LookSensitivity = 2f;
+        public float AimSensitivity = 1f;
         //public GameObject PlayerFollowCamera;
         private GameObject playerAimCamera;
         public GameObject bulletObject;
         public Transform bulletPoint;
+        Transform bulletOrigin;
         public GameObject bullet;
+        [SerializeField] LayerMask aimColliderLayerMask = new LayerMask();
+        [SerializeField] Transform debugTransform;
+        public Transform firePoint;
+
+        float sensitivity = 1f;
+        GameObject aimUI;
+        bool _rotateOnMove = true;
+
+        private void SetSensitivity(float newSensitivity)
+        {
+            sensitivity = newSensitivity;
+        }
+
+        private void SetRotateOnMove(bool newRotateOnMove) { _rotateOnMove = newRotateOnMove;  }
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -154,6 +170,11 @@ namespace StarterAssets
             {
                 playerAimCamera = GameObject.FindGameObjectWithTag("PlayerAimCamera");
             }
+
+            if (aimUI == null) aimUI = GameObject.FindGameObjectWithTag("AimUI");
+
+            if (bulletOrigin == null) bulletOrigin = GameObject.Find("BulletOrigin").transform;
+
         }
 
         private void Start()
@@ -178,7 +199,9 @@ namespace StarterAssets
             //bulletObject = Resources.Load("Bullet") as GameObject;
             //bulletObject = Resources.Load("Bullet", typeof(GameObject)) as GameObject;
             bulletPoint = gameObject.transform.Find("PlayerCameraRoot");
-            bulletObject = Resources.Load<GameObject>("Bullet");
+            //bulletObject = Resources.Load<GameObject>("Bullet");
+            bulletObject = Resources.Load<GameObject>("Sphere");
+
             //bullet = Instantiate(bulletObject, new Vector3(0f, 0f, 0f), Quaternion.identity);
             //bullet = Instantiate(bulletObject, Vector3.zero, Quaternion.identity);
             //Debug.Log(bulletObject.GetComponent<Rigidbody>().mass);
@@ -211,25 +234,64 @@ namespace StarterAssets
                 GroundedCheck();
                 Move();
                 AimShoot();
+                Crouch();
+                //Shoot();
+                
             }
             
         }
 
         void AimShoot()
         {
+            Vector3 mouseWorldPosition = Vector3.zero;
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+            {
+                //transform.position = raycastHit.point;
+                //debugTransform.position = raycastHit.point;
+                mouseWorldPosition = raycastHit.point;
+            }
+
             if (_input.isAiming && Grounded && !_input.sprint)
             {
+                aimUI.SetActive(true);
                 _animator.SetBool("Aiming", _input.isAiming);
                 _animator.SetBool("Shooting", _input.isShooting);
-                _cinemachineVirtualCamera.gameObject.SetActive(false);
+                //_animator.SetLayerWeight(1, 1);
+                //_cinemachineVirtualCamera.gameObject.SetActive(false);
                 playerAimCamera.SetActive(true);
+                SetSensitivity(AimSensitivity);
+                SetRotateOnMove(false);
+
+                /*RaycastHit hit;
+                if (Physics.Raycast(firePoint.position, transform.TransformDirection(Vector3.forward), out hit, 100)) {
+                    Debug.DrawRay(firePoint.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                }*/
+
+                Vector3 worldAimTarget = mouseWorldPosition;
+                worldAimTarget.y = transform.position.y;
+                Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+                transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+
+                if(_input.isShooting)
+                {
+                    Vector3 aimDir = (mouseWorldPosition - bulletOrigin.position).normalized;
+                    Instantiate(bulletObject, bulletOrigin.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    _input.isShooting = false;
+                }
+
             }
             else
             {
+                aimUI.SetActive(false);
                 _animator.SetBool("Aiming", false);
                 _animator.SetBool("Shooting", false);
-                _cinemachineVirtualCamera.gameObject.SetActive(true);
+                //_animator.SetLayerWeight(1, 0);
+                //_cinemachineVirtualCamera.gameObject.SetActive(true);
                 playerAimCamera.SetActive(false);
+                SetSensitivity(LookSensitivity);
+                SetRotateOnMove(true);
             }
         }
 
@@ -239,6 +301,18 @@ namespace StarterAssets
             Debug.Log(bulletObject.GetComponent<Rigidbody>().mass);
             GameObject bullet = Instantiate(bulletObject, bulletPoint.position, Quaternion.Euler(new Vector3(0, bulletPoint.rotation.eulerAngles.y, 0)));
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 25f, ForceMode.Impulse);
+        }
+
+        public void Crouch()
+        {
+            if (_input.isCrouch && Grounded)
+            {
+                _animator.SetBool("Couching", true); 
+            }
+            else
+            {
+                _animator.SetBool("Couching", false);
+            }
         }
 
         private void LateUpdate()
@@ -278,8 +352,8 @@ namespace StarterAssets
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * LookSensitivity;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * LookSensitivity;
+                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * sensitivity;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * sensitivity;
             }
 
             // clamp our rotations so our values are limited 360 degrees
@@ -341,7 +415,11 @@ namespace StarterAssets
                     RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                if(_rotateOnMove)
+                {
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
+                
             }
 
 

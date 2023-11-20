@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ZombieAttack : StateMachineBehaviour
 {
     NavMeshAgent agent;
-    Transform player;
+    GameObject player;
 
     public float stopAtackRange = 5f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -15,14 +15,14 @@ public class ZombieAttack : StateMachineBehaviour
         //AudioManager.instance.Play("DragonAttack");
         agent = animator.GetComponent<NavMeshAgent>();
         agent.speed = 3.5f;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.LookAt(player);
-        if (Vector3.Distance(player.position, animator.transform.position) > stopAtackRange) animator.SetBool("isAttacking", false);
+        animator.transform.LookAt(player.transform);
+        if (Vector3.Distance(player.transform.position, animator.transform.position) > stopAtackRange) animator.SetBool("isAttacking", false);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

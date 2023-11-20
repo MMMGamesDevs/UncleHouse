@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    /*
     public int damageAmount = 50;
     private void Start()
     {
@@ -23,5 +24,34 @@ public class Bullet : MonoBehaviour
             other.GetComponent<Zombie>().TakeDamage(damageAmount);
         }
 
+    }*/
+
+    Rigidbody bulletRigidbody;
+    [SerializeField] float speed = 10f;
+
+    private void Awake()
+    {
+        bulletRigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        bulletRigidbody.velocity = transform.forward * speed;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        transform.parent = other.transform;
+        Destroy(transform.GetComponent<Rigidbody>());
+        //Destroy(gameObject);
+        if (!other.CompareTag("Player"))
+        {
+            
+        }
+        if (other.tag == "Enemy")
+        {
+            Debug.Log("Me diste");
+            other.GetComponent<Zombie>().TakeDamage(50);
+        }
     }
 }

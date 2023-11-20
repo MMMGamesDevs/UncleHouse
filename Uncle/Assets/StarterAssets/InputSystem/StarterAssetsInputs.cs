@@ -3,24 +3,26 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-namespace StarterAssets
+namespace StarterAssetss
 {
 	public class StarterAssetsInputs : MonoBehaviour
 	{
+		// Voy a esconderlos al inspector porque no le veo utilidad mostrarlos, más que para ver sus movimientos y controles
 		[Header("Character Input Values")]
-		public Vector2 move;
-		public Vector2 look;
-		public bool jump;
-		public bool sprint;
-        public bool isAiming;
-        public bool isShooting;
+        [HideInInspector] public Vector2 move;
+        [HideInInspector] public Vector2 look;
+        [HideInInspector] public bool jump;
+        [HideInInspector] public bool sprint;
+        [HideInInspector] public bool isAiming;
+        [HideInInspector] public bool isShooting;
+        [HideInInspector] public bool isCrouch;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
 
 		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = true;
-		public bool cursorInputForLook = true;
+		public bool cursorLocked = true;			// Esconde el curso en escena
+		public bool cursorInputForLook = true;		// Activa el mouse para mirar sin girar al personaje
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -48,12 +50,20 @@ namespace StarterAssets
 
         public void OnAiming(InputValue value)
         {
-            isAiming = value.isPressed;
+			//isAiming = value.isPressed;
+			isAiming = !isAiming;
         }
 
         public void OnShooting(InputValue value)
         {
             isShooting = value.isPressed;
+			Debug.Log($"SHOOT: {value.isPressed}");
+        }
+
+        public void OnCrouch(InputValue value)
+        {
+            isCrouch = !isCrouch;
+			Debug.Log("Presionaste C");
         }
 #endif
 

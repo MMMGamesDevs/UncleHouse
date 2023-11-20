@@ -9,6 +9,7 @@ TagManager:
   - PlayerFollowCamera
   - WayPoints
   - Enemy
+  - AimUI
   layers:
   - Default
   - TransparentFX

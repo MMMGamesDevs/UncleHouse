@@ -43,9 +43,9 @@
                 },
                 {
                     "name": "Aiming",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "a45642fb-4b70-480d-ac8b-4c8f59328614",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -55,6 +55,24 @@
                     "type": "PassThrough",
                     "id": "25db338d-05be-41f9-afcb-10b336cace14",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "25077052-2464-4d6f-ac64-f201456c5d3b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "ea1d280f-6c33-413d-86d9-bb2a96b21079",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -278,6 +296,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Shooting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0dca3520-8a19-4d07-8678-ac160a676960",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45d117b4-6648-4fd1-a046-02485cbd92ed",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

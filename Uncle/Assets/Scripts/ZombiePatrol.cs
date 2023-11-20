@@ -8,14 +8,15 @@ public class ZombiePatrol : StateMachineBehaviour
     float timer;
     List<Transform> wayPoints = new List<Transform>();
     NavMeshAgent agent;
-    Transform player;
+    GameObject player;
 
     public float chaseRange = 8f;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player == null) animator.SetBool("isPatrolling", false);
         agent = animator.GetComponent<NavMeshAgent>();
         agent.speed = 1.5f;
         timer = 0;
@@ -37,7 +38,7 @@ public class ZombiePatrol : StateMachineBehaviour
         if (timer > 10) animator.SetBool("isPatrolling", false);
         if(player != null)
         {
-            if (Vector3.Distance(player.position, animator.transform.position) < chaseRange) animator.SetBool("isChasing", true);
+            if (Vector3.Distance(player.transform.position, animator.transform.position) < chaseRange) animator.SetBool("isChasing", true);
         }
             
     }
