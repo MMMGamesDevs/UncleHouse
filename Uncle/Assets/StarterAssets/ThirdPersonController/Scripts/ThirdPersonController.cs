@@ -274,12 +274,15 @@ namespace StarterAssetss
                 Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
                 transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
 
+                //ULTIMO CAMBIO
+                /*
                 if(_input.isShooting)
                 {
                     Vector3 aimDir = (mouseWorldPosition - bulletOrigin.position).normalized;
                     Instantiate(bulletObject, bulletOrigin.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     _input.isShooting = false;
                 }
+                */
 
             }
             else

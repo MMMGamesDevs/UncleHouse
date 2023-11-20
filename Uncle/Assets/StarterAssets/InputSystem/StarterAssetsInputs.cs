@@ -16,6 +16,7 @@ namespace StarterAssetss
         [HideInInspector] public bool isAiming;
         [HideInInspector] public bool isShooting;
         [HideInInspector] public bool isCrouch;
+		[HideInInspector] public bool reload;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -64,6 +65,12 @@ namespace StarterAssetss
         {
             isCrouch = !isCrouch;
 			Debug.Log("Presionaste C");
+        }
+
+		public void OnReload(InputValue value)
+		{
+			reload = value.isPressed;
+            Debug.Log($"RELOAD: {value.isPressed}");
         }
 #endif
 

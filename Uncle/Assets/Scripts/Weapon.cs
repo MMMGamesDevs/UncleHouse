@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StarterAssetss;
+using UnityEngine.Windows;
 
 public class Weapon : MonoBehaviour
 {
-    private StarterAssets controls;
+    private StarterAssetsInputs controls;
     private Camera cam;
     private RaycastHit rayHit;
 
@@ -24,12 +26,29 @@ public class Weapon : MonoBehaviour
     [Tooltip("Cantidad de municiones del cargador/tambor")]
     [SerializeField] int magazineSize;
 
-    [SerializeField] GameObject bulletHolePrefab;
-    [SerializeField] float bulletHoleLifeSpan;
-    [SerializeField] ParticleSystem muzzleFlash;
+    [Tooltip("Tag del enemigo")]
     [SerializeField] string EnemyTag;
+
+    [Tooltip("Fluctuación en el eje horizontal")]
     [SerializeField] float horizontalSpread;
+
+    [Tooltip("Fluctuación en el eje vertical")]
     [SerializeField] float verticalSpread;
+
+    [Tooltip("Valor de daño al enemigo")]
+    [SerializeField] int damageAmount;
+
+    [Header("Prefabs y agregados")]
+    [Tooltip("Prefab del hoyo que provocara en paredes")]
+    [SerializeField] GameObject bulletHolePrefab;
+
+    [Tooltip("Duración del hoyo")]
+    [SerializeField] float bulletHoleLifeSpan;
+
+    [Tooltip("Sistema de particulas de disparo")]
+    [SerializeField] ParticleSystem muzzleFlash;
+
+    [Header("Averiguar que es")]
     [SerializeField] float burstDelay;
     [SerializeField] int bulletsPerBurst;
     int bulletsShot;
@@ -39,8 +58,8 @@ public class Weapon : MonoBehaviour
     [Tooltip("Municiones que quedan en el arma")]
     [SerializeField] int ammoLeft;
 
-    [Tooltip("En proceso de disparo")]
-    [SerializeField] bool isShooting;
+    //[Tooltip("En proceso de disparo")]
+    //[SerializeField] bool isShooting;
 
     [Tooltip("Lista para disparar")]
     [SerializeField] bool readyToShoot;
@@ -48,52 +67,60 @@ public class Weapon : MonoBehaviour
     [Tooltip("En proceso de recarga")]
     [SerializeField] bool reloading;
 
+
     void Awake()
     {
         ammoLeft = magazineSize;
         readyToShoot = true;
-        controls = new StarterAssets();
+        controls = GetComponent<StarterAssetsInputs>();
         cam = Camera.main;
-        controls.Player.Shooting.started += ctx => StartShot();
-        controls.Player.Shooting.canceled += ctx => EndShot();
+        //controls.Player.Shooting.started += ctx => StartShot();
+        //controls.Player.Shooting.canceled += ctx => EndShot();
 
-        controls.Player.Reload.performed += ctx => Reload();
+        //controls.Player.Reload.performed += ctx => Reload();
     }
 
     void Update()
     {
-        if(isShooting && readyToShoot && !reloading && ammoLeft > 0)
+        if (controls.isShooting /*&& isShooting*/ && readyToShoot && !reloading && ammoLeft > 0)
         {
             bulletsShot = bulletsPerBurst;
             PerformShot();
+        }
+
+        if(controls.reload && /*!controls.isShooting*/ readyToShoot)
+        {
+            controls.reload = false;
+            Reload();
         }
     }
 
     void StartShot()
     {
-        isShooting = true;
+        //isShooting = true;
     }
 
     void EndShot()
     {
-        isShooting = false;
+        //isShooting = false;
+        controls.isShooting = false;
     }
 
     void PerformShot()
     {
         readyToShoot = false;
-        
+
         float x = Random.Range(-horizontalSpread, horizontalSpread);
         float y = Random.Range(-verticalSpread, verticalSpread);
 
         Vector3 direction = cam.transform.forward + new Vector3(x, y, 0);
 
-        if(Physics.Raycast(cam.transform.position, direction, out rayHit, bulletRange))
+        if (Physics.Raycast(cam.transform.position, direction, out rayHit, bulletRange))
         {
             Debug.Log($"{rayHit.collider.gameObject.name}: {rayHit.distance}m");
-            if(rayHit.collider.gameObject.tag == EnemyTag)
+            if (rayHit.collider.gameObject.tag == EnemyTag)
             {
-
+                rayHit.collider.gameObject.GetComponent<Zombie>().TakeDamage(damageAmount);
             }
             else
             {
@@ -102,19 +129,19 @@ public class Weapon : MonoBehaviour
                 Destroy(bulletHole, bulletHoleLifeSpan);
             }
         }
-        muzzleFlash.Play();
+        if(muzzleFlash != null) muzzleFlash.Play();
 
         ammoLeft--;
         bulletsShot--;
 
-        if(bulletsShot > 0 && ammoLeft > 0)
+        if (bulletsShot > 0 && ammoLeft > 0)
         {
             Invoke("ResumeBurst", burstDelay);
         }
         else
         {
             Invoke("ResetShot", fireRate);
-            if(!isAutomatic)
+            if (!isAutomatic)
             {
                 EndShot();
             }
@@ -146,13 +173,11 @@ public class Weapon : MonoBehaviour
 
     void OnEnable()
     {
-        controls.Enable();
+        //controls.Enable();
     }
 
     void OnDisable()
     {
-        controls.Disable();
+        //controls.Disable();
     }
- 
-
 }

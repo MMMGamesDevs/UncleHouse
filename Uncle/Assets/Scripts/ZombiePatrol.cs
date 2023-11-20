@@ -25,6 +25,7 @@ public class ZombiePatrol : StateMachineBehaviour
             wayPoints.Add(go.transform);
         }
         agent.SetDestination(wayPoints[Random.Range(0, wayPoints.Count)].position);
+        animator.transform.Find("EnemyUI").gameObject.SetActive(false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

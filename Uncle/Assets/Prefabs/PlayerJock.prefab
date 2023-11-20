@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5587448900801616112}
   - component: {fileID: -4720329115369570576}
   - component: {fileID: 3604086529866306702}
+  - component: {fileID: 2870381837701258411}
   m_Layer: 8
   m_Name: PlayerJock
   m_TagString: Player
@@ -180,6 +181,7 @@ MonoBehaviour:
   isAiming: 0
   isShooting: 0
   isCrouch: 0
+  reload: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -345,6 +347,35 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &2870381837701258411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5095099319999257446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa2e4f91c91f1cf4cbfb29ba4ba13904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletRange: 25
+  fireRate: 1
+  reloadTime: 3
+  isAutomatic: 0
+  magazineSize: 6
+  EnemyTag: Enemy
+  horizontalSpread: 0.02
+  verticalSpread: 0.02
+  damageAmount: 25
+  bulletHolePrefab: {fileID: 5554858339375641537, guid: cb60ae771d0ae324f9eb43ab06e4b739, type: 3}
+  bulletHoleLifeSpan: 10
+  muzzleFlash: {fileID: 6219620679953128225}
+  burstDelay: 0
+  bulletsPerBurst: 1
+  ammoLeft: 0
+  readyToShoot: 0
+  reloading: 0
 --- !u!1 &7052920731311709064
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,8 @@ public class ZombieChase : StateMachineBehaviour
         agent = animator.GetComponent<NavMeshAgent>();
         agent.speed = 3.5f;
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        animator.transform.Find("EnemyUI").gameObject.SetActive(true);
+
 
     }
 
