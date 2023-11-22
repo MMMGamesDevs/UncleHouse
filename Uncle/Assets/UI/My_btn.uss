@@ -1,0 +1,24 @@
+.Character_Button {
+    -unity-background-image-tint-color: rgb(44, 60, 87);
+    background-color: rgba(0, 0, 0, 0.35);
+    color: rgba(255, 255, 255, 0.62);
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    border-bottom-right-radius: 11px;
+    border-bottom-left-radius: 11px;
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(50, 69, 101, 0);
+    border-right-color: rgba(50, 69, 101, 0);
+    border-top-color: rgba(50, 69, 101, 0);
+    border-bottom-color: rgba(50, 69, 101, 0);
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 0 rgba(241, 235, 235, 0.36);
+    -unity-text-outline-width: 1px;
+}
