@@ -1,7 +1,10 @@
 ﻿using Cinemachine;
+using System.Security.Cryptography;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM 
+using UnityEngine.Animations.Rigging;
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 #endif
@@ -208,6 +211,9 @@ namespace StarterAssetss
             //GameObject bullet = Instantiate(Resources.Load("Bullet", typeof(GameObject)), bulletPoint.position, Quaternion.Euler(new Vector3(90, bulletPoint.rotation.eulerAngles.y, 0))) as GameObject;
             //Debug.Log(bulletObject.active);
             //Debug.Log(bulletPoint.gameObject.active);
+
+            _animator.SetLayerWeight(1, 0);
+
         }
 
         public override void OnNetworkSpawn()
@@ -269,6 +275,7 @@ namespace StarterAssetss
                     Debug.DrawRay(firePoint.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 }*/
 
+                // ROTAR EL PERSONAJE A LA MIRA CUANDO ESTA EN MODO AIMING
                 Vector3 worldAimTarget = mouseWorldPosition;
                 worldAimTarget.y = transform.position.y;
                 Vector3 aimDirection = (worldAimTarget - transform.position).normalized;

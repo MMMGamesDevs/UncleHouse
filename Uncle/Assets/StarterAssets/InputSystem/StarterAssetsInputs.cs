@@ -58,19 +58,16 @@ namespace StarterAssetss
         public void OnShooting(InputValue value)
         {
             isShooting = value.isPressed;
-			Debug.Log($"SHOOT: {value.isPressed}");
         }
 
         public void OnCrouch(InputValue value)
         {
             isCrouch = !isCrouch;
-			Debug.Log("Presionaste C");
         }
 
 		public void OnReload(InputValue value)
 		{
 			reload = value.isPressed;
-            Debug.Log($"RELOAD: {value.isPressed}");
         }
 #endif
 
