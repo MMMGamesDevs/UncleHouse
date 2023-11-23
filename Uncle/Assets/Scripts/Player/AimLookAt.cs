@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AimLookAt : MonoBehaviour
 {
     GameObject _mainCamera;
+    Transform _aimLookAtMainCamera;
 
 
     private void Awake()
     {
         if (_mainCamera == null) _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        _aimLookAtMainCamera = _mainCamera.transform.Find("AimLookAtMainCamera");
     }
 
-    void Start()
+    void Update()
     {
-        transform.parent = _mainCamera.transform;
-        transform.position = new Vector3(0, 0, 20);
+        transform.position = _aimLookAtMainCamera.position;
+        transform.rotation = _aimLookAtMainCamera.rotation;
     }
 }

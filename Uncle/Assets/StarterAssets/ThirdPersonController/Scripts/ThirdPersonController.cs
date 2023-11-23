@@ -141,6 +141,8 @@ namespace StarterAssetss
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+        RigBuilder rigbuilder;
+        float aimDuration = 0.3f;
 
         private bool IsCurrentDeviceMouse
         {
@@ -187,6 +189,8 @@ namespace StarterAssetss
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            rigbuilder = GetComponent<RigBuilder>();
+            
             /*
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
@@ -259,16 +263,21 @@ namespace StarterAssetss
                 mouseWorldPosition = raycastHit.point;
             }
 
+            float deltaWeight = Time.deltaTime / aimDuration;
+
             if (_input.isAiming && Grounded && !_input.sprint)
             {
                 aimUI.SetActive(true);
-                _animator.SetBool("Aiming", _input.isAiming);
-                _animator.SetBool("Shooting", _input.isShooting);
+                //_animator.SetBool("Aiming", _input.isAiming);
+                //_animator.SetBool("Shooting", _input.isShooting);
                 //_animator.SetLayerWeight(1, 1);
                 //_cinemachineVirtualCamera.gameObject.SetActive(false);
                 playerAimCamera.SetActive(true);
                 SetSensitivity(AimSensitivity);
                 SetRotateOnMove(false);
+                rigbuilder.layers[0].rig.weight += deltaWeight;
+                rigbuilder.layers[2].rig.weight += deltaWeight;
+
 
                 /*RaycastHit hit;
                 if (Physics.Raycast(firePoint.position, transform.TransformDirection(Vector3.forward), out hit, 100)) {
@@ -302,6 +311,8 @@ namespace StarterAssetss
                 playerAimCamera.SetActive(false);
                 SetSensitivity(LookSensitivity);
                 SetRotateOnMove(true);
+                rigbuilder.layers[0].rig.weight -= deltaWeight;
+                rigbuilder.layers[2].rig.weight -= deltaWeight;
             }
         }
 
