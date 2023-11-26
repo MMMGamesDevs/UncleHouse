@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
+    <Style src="project://database/Assets/UI/Character_Select.uss?fileID=7433441132597879392&amp;guid=d144d695ac082fd45a7183440c0f8dee&amp;type=3#Character_Select" />
+    <Style src="project://database/Assets/UI/Select_Character.uss?fileID=7433441132597879392&amp;guid=6e8897d993cc5bd4f8c3191b17eb216b&amp;type=3#Select_Character" />
+    <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-left;">
+        <ui:Label tabindex="-1" text="THE HOUSE" parse-escape-sequences="false" display-tooltip-when-elided="true" style="-unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=b9391b9e64476dc4db4933de16fc85a7&amp;type=3#Oh No&apos;); font-size: 84px; color: rgba(241, 228, 228, 0.48);" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around; font-size: 15px; align-self: auto; align-items: center; padding-bottom: 0; scale: 0.9 1; width: auto; height: auto; flex-wrap: wrap-reverse; margin-bottom: 22px; margin-top: 26%;">
+        <ui:Button text="Yoko" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn Character_Button" />
+        <ui:Button text="Lisa" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn Character_Button" />
+        <ui:Button text="Gimp" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn Character_Button" />
+        <ui:Button text="Aaron" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn Character_Button" />
+        <ui:Button text="Wolf" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn Character_Button" />
+    </ui:VisualElement>
+</ui:UXML>

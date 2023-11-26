@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; -unity-text-align: upper-center; justify-content: space-around; align-self: auto; align-items: flex-end; padding-bottom: 64px;">
+        <ui:Button text="SINGLE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button" class="My_btn" />
+        <ui:Button text="MULTI" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn" />
+        <ui:Button text="BACK" parse-escape-sequences="true" display-tooltip-when-elided="true" class="My_btn" />
+    </ui:VisualElement>
+</ui:UXML>
