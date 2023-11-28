@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Walter/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
+    <ui:VisualElement style="flex-grow: 1; -unity-text-align: middle-left; justify-content: center; width: auto; align-items: center; margin-top: 0;">
+        <ui:Button text="SERVER" parse-escape-sequences="true" display-tooltip-when-elided="true" class="Character_Button" />
+        <ui:Button text="HOST" parse-escape-sequences="true" display-tooltip-when-elided="true" class="Character_Button" />
+        <ui:Button text="CLIENT" parse-escape-sequences="true" display-tooltip-when-elided="true" class="Character_Button" />
+        <ui:Button text="EXIT" parse-escape-sequences="true" display-tooltip-when-elided="true" class="Character_Button" />
+    </ui:VisualElement>
+</ui:UXML>

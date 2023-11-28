@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
+    <Style src="project://database/Assets/_Walter/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
     <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-left;">
         <ui:Label tabindex="-1" text="THE HOUSE" parse-escape-sequences="false" display-tooltip-when-elided="true" style="-unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=b9391b9e64476dc4db4933de16fc85a7&amp;type=3#Oh No&apos;); font-size: 84px; color: rgba(241, 228, 228, 0.48);" />
     </ui:VisualElement>
-    <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-center; justify-content: space-around; align-items: center; flex-direction: row; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/who%20asks%20satan.ttf?fileID=12800000&amp;guid=c0402b9c6d3f46143bf4d38cd0621922&amp;type=3#who asks satan&apos;); -unity-font-style: normal;">
-        <ui:Button text="START" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start" class="My_btn Character_Button" style="height: 10%;" />
-        <ui:Button text="OPTIONS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Options" class="My_btn Character_Button" style="height: 10%;" />
-        <ui:Button text="QUIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit" class="My_btn Character_Button" style="height: 10%;" />
+    <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-center; justify-content: space-around; align-items: center; flex-direction: row; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/who%20asks%20satan.ttf?fileID=12800000&amp;guid=c0402b9c6d3f46143bf4d38cd0621922&amp;type=3#who asks satan&apos;); -unity-font-style: normal; padding-right: 15px; padding-left: 15px;">
+        <ui:Button text="START" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start" class="My_btn Character_Button" style="height: auto; width: auto;" />
+        <ui:Button text="OPTIONS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Options" class="My_btn Character_Button" style="height: auto; width: auto;" />
+        <ui:Button text="QUIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit" class="My_btn Character_Button" style="height: auto; width: auto;" />
     </ui:VisualElement>
 </ui:UXML>
