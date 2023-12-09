@@ -17,6 +17,7 @@ namespace StarterAssets
         [HideInInspector] public bool isShooting;
         [HideInInspector] public bool isCrouch;
 		[HideInInspector] public bool reload;
+		[HideInInspector] public bool pickup;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -69,6 +70,11 @@ namespace StarterAssets
 		{
 			reload = value.isPressed;
         }
+
+		public void OnPickup(InputValue value)
+		{
+			pickup = value.isPressed;
+		}
 #endif
 
 

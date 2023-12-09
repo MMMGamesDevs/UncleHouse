@@ -69,28 +69,38 @@ namespace StarterAssets
         [Tooltip("En proceso de recarga")]
         [SerializeField] bool reloading;
 
+        public void SetControls(StarterAssetsInputs controls)
+        {
+            this.controls = controls;
+        }
 
         void Awake()
         {
             ammoLeft = magazineSize;
             readyToShoot = true;
-            controls = GetComponent<StarterAssetsInputs>();
+            //controls = GameObject.FindGameObjectWithTag("Player").GetComponent<StarterAssetsInputs>();
+            //controls = GetComponent<StarterAssetsInputs>();
             cam = Camera.main;
-            //controls.Player.Shooting.started += ctx => StartShot();
-            //controls.Player.Shooting.canceled += ctx => EndShot();
-
-            //controls.Player.Reload.performed += ctx => Reload();
         }
 
         void Update()
         {
-            if (controls.isShooting /*&& isShooting*/ && readyToShoot && !reloading && ammoLeft > 0)
+            if (controls == null) return;
+            if (controls.isShooting /*&& isShooting*/ && readyToShoot && !reloading)
             {
-                bulletsShot = bulletsPerBurst;
-                PerformShot();
+                if (ammoLeft > 0)
+                {
+                    bulletsShot = bulletsPerBurst;
+                    PerformShot();
+                }
+                else
+                {
+                    AudioManager.instance.Play($"{gameObject.name}-OutOfBullets");
+                }
+                
             }
 
-            if (controls.reload && /*!controls.isShooting*/ readyToShoot)
+            if (controls.reload && /*!controls.isShooting*/ readyToShoot && controls.isAiming)
             {
                 controls.reload = false;
                 Reload();
@@ -111,6 +121,8 @@ namespace StarterAssets
         void PerformShot()
         {
             readyToShoot = false;
+            AudioManager.instance.Play($"{gameObject.name}-Shot");
+            if (muzzleFlash != null) muzzleFlash.Play();
 
             float x = Random.Range(-horizontalSpread, horizontalSpread);
             float y = Random.Range(-verticalSpread, verticalSpread);
@@ -124,14 +136,15 @@ namespace StarterAssets
                 {
                     rayHit.collider.gameObject.GetComponent<Zombie>().TakeDamage(damageAmount);
                 }
-                else
+                else if(rayHit.collider.gameObject.tag != "Player")
                 {
                     GameObject bulletHole = Instantiate(bulletHolePrefab, rayHit.point + rayHit.normal * 0.001f, Quaternion.identity) as GameObject;
                     bulletHole.transform.LookAt(rayHit.point + rayHit.normal);
                     Destroy(bulletHole, bulletHoleLifeSpan);
                 }
             }
-            if (muzzleFlash != null) muzzleFlash.Play();
+
+            
 
             ammoLeft--;
             bulletsShot--;
@@ -163,24 +176,17 @@ namespace StarterAssets
         void Reload()
         {
             reloading = true;
+            controls.isAiming = false;
             Invoke("ReloadFinish", reloadTime);
+            AudioManager.instance.Play($"{gameObject.name}-Reload");
         }
 
         void ReloadFinish()
         {
+            controls.isAiming = true;
             ammoLeft = magazineSize;
             reloading = false;
             readyToShoot = true;
-        }
-
-        void OnEnable()
-        {
-            //controls.Enable();
-        }
-
-        void OnDisable()
-        {
-            //controls.Disable();
         }
     }
 

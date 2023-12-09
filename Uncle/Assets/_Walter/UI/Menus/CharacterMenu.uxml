@@ -2,9 +2,7 @@
     <Style src="project://database/Assets/_Walter/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
     <Style src="project://database/Assets/_Walter/UI/Character_Select.uss?fileID=7433441132597879392&amp;guid=d144d695ac082fd45a7183440c0f8dee&amp;type=3#Character_Select" />
     <Style src="project://database/Assets/_Walter/UI/Select_Character.uss?fileID=7433441132597879392&amp;guid=6e8897d993cc5bd4f8c3191b17eb216b&amp;type=3#Select_Character" />
-    <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-left;">
-        <ui:Label tabindex="-1" text="THE HOUSE" parse-escape-sequences="false" display-tooltip-when-elided="true" style="-unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=b9391b9e64476dc4db4933de16fc85a7&amp;type=3#Oh No&apos;); font-size: 84px; color: rgba(241, 228, 228, 0.48);" />
-    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-left;" />
     <ui:VisualElement name="BtnWrapper" style="flex-grow: 1;">
         <ui:VisualElement name="CharactersBtns" style="flex-grow: 1; flex-direction: row; justify-content: space-around; font-size: 15px; align-self: stretch; align-items: center; padding-bottom: 0; scale: 1 1; width: auto; height: auto; flex-wrap: nowrap; margin-bottom: 0; margin-top: 0; flex-basis: auto; margin-right: 16px; margin-left: 16px; transition-timing-function: ease-in-out-elastic;">
             <ui:Button text="Yoko" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Yoko" class="My_btn Character_Button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 70px; height: 30px;" />

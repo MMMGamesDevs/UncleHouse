@@ -1,4 +1,6 @@
 ﻿using Cinemachine;
+using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -20,6 +22,15 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : NetworkBehaviour
     {
+        [SerializeField] GameObject _pickableItem;
+        [SerializeField] GameObject _weapon;
+        [SerializeField] GameObject weaponRightHand;
+        [SerializeField] GameObject weaponLeftHand;
+        //[SerializeField] GameObject[] _items;
+        //Dictionary<string, int> _items = new Dictionary<string, int>();
+        public ItemsManager itemsManager = new ItemsManager();
+        public GameObject weaponPivot;
+
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -87,10 +98,7 @@ namespace StarterAssets
         public float AimSensitivity = 1f;
         //public GameObject PlayerFollowCamera;
         private GameObject playerAimCamera;
-        public GameObject bulletObject;
-        public Transform bulletPoint;
         Transform bulletOrigin;
-        public GameObject bullet;
         [SerializeField] LayerMask aimColliderLayerMask = new LayerMask();
         [SerializeField] Transform debugTransform;
         public Transform firePoint;
@@ -142,7 +150,7 @@ namespace StarterAssets
 
         private bool _hasAnimator;
         RigBuilder rigbuilder;
-        float aimDuration = 0.3f;
+        float aimDuration = 0.5f;
 
         private bool IsCurrentDeviceMouse
         {
@@ -203,20 +211,9 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-            //bulletObject = Resources.Load("Bullet") as GameObject;
-            //bulletObject = Resources.Load("Bullet", typeof(GameObject)) as GameObject;
-            bulletPoint = gameObject.transform.Find("PlayerCameraRoot");
-            //bulletObject = Resources.Load<GameObject>("Bullet");
-            bulletObject = Resources.Load<GameObject>("Sphere");
-
-            //bullet = Instantiate(bulletObject, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            //bullet = Instantiate(bulletObject, Vector3.zero, Quaternion.identity);
-            //Debug.Log(bulletObject.GetComponent<Rigidbody>().mass);
-            //GameObject bullet = Instantiate(Resources.Load("Bullet", typeof(GameObject)), bulletPoint.position, Quaternion.Euler(new Vector3(90, bulletPoint.rotation.eulerAngles.y, 0))) as GameObject;
-            //Debug.Log(bulletObject.active);
-            //Debug.Log(bulletPoint.gameObject.active);
 
             _animator.SetLayerWeight(1, 0);
+            if(!_weapon) rigbuilder.layers[3].rig.weight = 0;
 
         }
 
@@ -229,8 +226,9 @@ namespace StarterAssets
                 _playerInput.enabled = true;
                 Transform PlayerCameraRoot = transform.Find("PlayerCameraRoot");
                 _cinemachineVirtualCamera.Follow = PlayerCameraRoot;
+                _cinemachineVirtualCamera.LookAt = PlayerCameraRoot;
                 playerAimCamera.GetComponent<CinemachineVirtualCamera>().Follow = PlayerCameraRoot;
-                
+                playerAimCamera.GetComponent<CinemachineVirtualCamera>().LookAt = PlayerCameraRoot;
             }
         }
 
@@ -245,7 +243,7 @@ namespace StarterAssets
                 Move();
                 AimShoot();
                 Crouch();
-                //Shoot();
+                Pickup();
                 
             }
             
@@ -253,15 +251,6 @@ namespace StarterAssets
 
         void AimShoot()
         {
-            Vector3 mouseWorldPosition = Vector3.zero;
-            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
-            {
-                //transform.position = raycastHit.point;
-                //debugTransform.position = raycastHit.point;
-                mouseWorldPosition = raycastHit.point;
-            }
 
             float deltaWeight = Time.deltaTime / aimDuration;
 
@@ -271,35 +260,13 @@ namespace StarterAssets
                 //_animator.SetBool("Aiming", _input.isAiming);
                 //_animator.SetBool("Shooting", _input.isShooting);
                 //_animator.SetLayerWeight(1, 1);
-                //_cinemachineVirtualCamera.gameObject.SetActive(false);
                 playerAimCamera.SetActive(true);
                 SetSensitivity(AimSensitivity);
                 SetRotateOnMove(false);
                 rigbuilder.layers[0].rig.weight += deltaWeight;
                 rigbuilder.layers[2].rig.weight += deltaWeight;
 
-
-                /*RaycastHit hit;
-                if (Physics.Raycast(firePoint.position, transform.TransformDirection(Vector3.forward), out hit, 100)) {
-                    Debug.DrawRay(firePoint.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                }*/
-
-                // ROTAR EL PERSONAJE A LA MIRA CUANDO ESTA EN MODO AIMING
-                Vector3 worldAimTarget = mouseWorldPosition;
-                worldAimTarget.y = transform.position.y;
-                Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-                transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-
-                //ULTIMO CAMBIO
-                /*
-                if(_input.isShooting)
-                {
-                    Vector3 aimDir = (mouseWorldPosition - bulletOrigin.position).normalized;
-                    Instantiate(bulletObject, bulletOrigin.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                    _input.isShooting = false;
-                }
-                */
-
+                RotatePlayerToTarget();
             }
             else
             {
@@ -316,14 +283,6 @@ namespace StarterAssets
             }
         }
 
-        public void Shoot()
-        {
-            Debug.Log("Disparo");
-            Debug.Log(bulletObject.GetComponent<Rigidbody>().mass);
-            GameObject bullet = Instantiate(bulletObject, bulletPoint.position, Quaternion.Euler(new Vector3(0, bulletPoint.rotation.eulerAngles.y, 0)));
-            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 25f, ForceMode.Impulse);
-        }
-
         public void Crouch()
         {
             if (_input.isCrouch && Grounded)
@@ -334,6 +293,60 @@ namespace StarterAssets
             {
                 _animator.SetBool("Couching", false);
             }
+        }
+
+        private void Pickup()
+        {
+            if (_input.pickup && _pickableItem)
+            {
+                bool isPickedup = false;
+                GameObject item = _pickableItem.GetComponent<PickableItem>().GetItem();
+                if (item.tag == "Weapon")
+                {
+                    if (_weapon) Destroy(_weapon);
+                    _weapon = item;
+                    _weapon.transform.parent = weaponPivot.transform;
+                    WeaponRig weaponRig;
+                    switch (item.name)
+                    {
+                        case "Rifle":
+                            weaponRig = new RifleRig();
+                            break;
+                        case "Revolver":
+                        default:
+                            weaponRig = new RevolverRig();
+                            break;
+                    }
+                    _weapon.transform.localPosition = weaponRig.GetGunPosition();
+                    _weapon.transform.localRotation = weaponRig.GetGunRotacion();
+                    _weapon.transform.localScale = weaponRig.GetGunScale();
+                    _weapon.GetComponent<Weapon>().SetControls(_input);
+                    weaponRightHand.transform.localPosition = weaponRig.GetRightHandPosition();
+                    weaponRightHand.transform.localRotation = weaponRig.GetRightHandRotacion();
+                    weaponLeftHand.transform.localPosition = weaponRig.GetLeftHandPosition();
+                    weaponLeftHand.transform.localRotation = weaponRig.GetLeftHandRotacion();
+                    rigbuilder.layers[3].rig.weight = 1;
+                    isPickedup = true;
+                }
+                else
+                {
+                    isPickedup = itemsManager.AddItem(item.name);
+                }
+
+                if(isPickedup)
+                {
+                    AudioManager.instance.Play("PickingUp-Key");
+                    _pickableItem.GetComponent<PickableItem>().DestroyItem();
+                    _pickableItem = null;
+                    itemsManager.ShowDebugLog();
+                }
+            }
+            _input.pickup = false;
+        }
+
+        public void SetPickableItem(GameObject item)
+        {
+            _pickableItem = item;
         }
 
         private void LateUpdate()
@@ -554,7 +567,8 @@ namespace StarterAssets
             {
                 if (FootstepAudioClips.Length > 0)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
+                    // ATENTION: Original era -> var index = Random.Range(0, FootstepAudioClips.Length);
+                    var index = UnityEngine.Random.Range(0, FootstepAudioClips.Length);
                     AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
                 }
             }
@@ -566,6 +580,21 @@ namespace StarterAssets
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
+        }
+
+        // Posiciona el vector forward del personaje hacia la mira
+        private void RotatePlayerToTarget()
+        {
+            Vector3 worldAimTarget = Vector3.zero;
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+            {
+                worldAimTarget = raycastHit.point;
+            }
+            worldAimTarget.y = transform.position.y;
+            Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
         }
     }
 }

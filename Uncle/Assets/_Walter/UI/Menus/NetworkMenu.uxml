@@ -1,14 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/_Walter/UI/My_btn.uss?fileID=7433441132597879392&amp;guid=c331317e903e3fb40a9923986cbe5eca&amp;type=3#My_btn" />
-    <ui:VisualElement name="VisualElement" style="flex-grow: 1; -unity-text-align: upper-left;">
-        <ui:Label tabindex="-1" text="THE HOUSE" parse-escape-sequences="false" display-tooltip-when-elided="true" style="-unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=b9391b9e64476dc4db4933de16fc85a7&amp;type=3#Oh No&apos;); font-size: 84px; color: rgba(241, 228, 228, 0.48);" />
-    </ui:VisualElement>
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; -unity-text-align: upper-left;" />
     <ui:VisualElement name="BtnWrapper" style="flex-grow: 1;">
         <ui:VisualElement name="ServerBtns" style="flex-grow: 1; -unity-text-align: middle-left; justify-content: center; width: auto; align-items: center; margin-top: 0;">
             <ui:Button text="SERVER" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ServerButton" class="Character_Button" />
             <ui:Button text="HOST" parse-escape-sequences="true" display-tooltip-when-elided="true" name="HostButton" class="Character_Button" />
             <ui:Button text="CLIENT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ClientButton" class="Character_Button" />
-            <ui:Button text="EXIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitButton" class="Character_Button" />
+            <ui:Button text="BACK" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BackButton" class="Character_Button" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PolygonHorrorMansion/Scenes/Demo_01.unity
     guid: dda52f1b21df39c459a6b2eafa31df9d
+  - enabled: 1
+    path: Assets/_Temp/Scenes/Scene2.unity
+    guid: c444f18338744f54ebc0e8fe29b6f9ad
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 66433443a63c056478ad3a5cfa788051, type: 2}
