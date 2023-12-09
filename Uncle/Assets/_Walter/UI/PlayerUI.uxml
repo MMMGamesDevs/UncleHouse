@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="UpperDataCont" style="flex-grow: 1; flex-wrap: nowrap; max-height: 49%;">
+        <ui:VisualElement name="DataContainer" style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement name="PlayerDataCont" style="flex-grow: 1; max-width: 33%; padding-top: 7px; padding-left: 7px;">
+                <ui:VisualElement name="LifeBar" style="flex-grow: 1; background-color: rgba(217, 223, 231, 0.27); max-width: 100%; max-height: 7px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgba(232, 236, 241, 0.82); border-right-color: rgba(232, 236, 241, 0.82); border-top-color: rgba(232, 236, 241, 0.82); border-bottom-color: rgba(232, 236, 241, 0.82);">
+                    <ui:VisualElement name="Health" style="flex-grow: 1; -unity-background-image-tint-color: rgb(45, 41, 188); background-color: rgba(232, 235, 241, 0.93); max-width: 70%; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;" />
+                </ui:VisualElement>
+                <ui:Label tabindex="-1" text="Player 1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayerLbl" style="-unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=b9391b9e64476dc4db4933de16fc85a7&amp;type=3#Oh No&apos;); color: rgba(232, 232, 233, 0.66); -unity-font-style: bold;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="KeysContainer" style="flex-grow: 1; max-width: 34%;" />
+            <ui:VisualElement name="GunsContainer" style="flex-grow: 1; max-width: 33%; flex-direction: row-reverse; flex-wrap: nowrap; padding-top: 7px; padding-right: 7px; padding-bottom: 7px; padding-left: 7px;">
+                <ui:VisualElement name="GunCard" style="flex-grow: 1; flex-direction: column; max-width: 25%; max-height: 42%;">
+                    <ui:VisualElement name="GunImg" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/_Walter/UI/Imgs/Gun.png?fileID=2800000&amp;guid=b53e029e87304294f9b848b92bab7e4e&amp;type=3#Gun&apos;); max-width: none; max-height: none; -unity-background-image-tint-color: rgb(29, 29, 28);" />
+                    <ui:Label tabindex="-1" text="6/45" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BulletsAmount" style="-unity-font: url(&apos;project://database/Assets/_Walter/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=cedb7ca5e8a683c4299709cffc5d0db1&amp;type=3#Oh No&apos;); color: rgba(226, 235, 241, 0.68); align-self: center; justify-content: space-around;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Aim" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/OccaSoftware/Crosshairs/Art/Textures/Crosshair_08.png?fileID=2800000&amp;guid=6630dbfefd1c68a42971b0d02b77150e&amp;type=3#Crosshair_08&apos;); -unity-background-image-tint-color: rgba(255, 255, 255, 0.84); width: 16px; height: 16px; justify-content: space-around; align-items: center; align-self: center; max-height: 16px; max-width: 16px;" />
+    <ui:VisualElement name="ControlsSpace" style="flex-grow: 1; max-height: 49%;" />
+</ui:UXML>

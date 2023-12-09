@@ -4,9 +4,10 @@
         <ui:Label tabindex="-1" text="THE HOUSE" parse-escape-sequences="false" display-tooltip-when-elided="true" style="-unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/Oh%20No.ttf?fileID=12800000&amp;guid=b9391b9e64476dc4db4933de16fc85a7&amp;type=3#Oh No&apos;); font-size: 84px; color: rgba(241, 228, 228, 0.48);" />
     </ui:VisualElement>
     <ui:VisualElement name="BtnWrapper" style="flex-grow: 1;">
-        <ui:VisualElement name="MenuBtns" style="flex-grow: 1; -unity-text-align: upper-center; justify-content: space-around; align-items: center; flex-direction: row; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/who%20asks%20satan.ttf?fileID=12800000&amp;guid=c0402b9c6d3f46143bf4d38cd0621922&amp;type=3#who asks satan&apos;); -unity-font-style: normal; padding-right: 15px; padding-left: 15px;">
+        <ui:VisualElement name="MenuBtns" style="flex-grow: 1; -unity-text-align: upper-center; justify-content: space-around; align-items: center; flex-direction: row; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/who%20asks%20satan.ttf?fileID=12800000&amp;guid=c0402b9c6d3f46143bf4d38cd0621922&amp;type=3#who asks satan&apos;); -unity-font-style: normal; padding-right: 15px; padding-left: 15px; flex-wrap: nowrap; align-self: auto;">
             <ui:Button text="START" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartBtn" class="My_btn Character_Button" style="height: auto; width: auto;" />
             <ui:Button text="OPTIONS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionsBtn" class="My_btn Character_Button" style="height: auto; width: auto;" />
+            <ui:Button text="CREDITS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreditsBtn" class="My_btn Character_Button" style="height: auto; width: auto;" />
             <ui:Button text="QUIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitBtn" class="My_btn Character_Button" style="height: auto; width: auto;" />
         </ui:VisualElement>
     </ui:VisualElement>
